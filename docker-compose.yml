@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  autoservice:
+    image: 'autoservice'
+    build:
+      context: .
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    container_name: app
+    depends_on:
+      - db
+    environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:$POSTGRES_DOCKER_PORT/$POSTGRES_DB
+        - SPRING_DATASOURCE_USERNAME=$POSTGRES_USER
+        - SPRING_DATASOURCE_PASSWORD=$POSTGRES_PASSWORD
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    env_file: ./.env
+    ports:
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
