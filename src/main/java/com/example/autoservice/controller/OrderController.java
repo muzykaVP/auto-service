@@ -6,7 +6,6 @@ import com.example.autoservice.dto.request.OrderRequestDto;
 import com.example.autoservice.dto.response.OrderResponseDto;
 import com.example.autoservice.model.Order;
 import com.example.autoservice.service.OrderService;
-import com.example.autoservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.math.BigDecimal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ public class OrderController {
     private final ResponseDtoMapper<Order, OrderResponseDto> responseDtoMapper;
 
     public OrderController(OrderService orderService,
-                           ProductService productService,
                            RequestDtoMapper<OrderRequestDto, Order> requestDtoMapper,
                            ResponseDtoMapper<Order, OrderResponseDto> responseDtoMapper) {
         this.orderService = orderService;
@@ -44,7 +42,8 @@ public class OrderController {
     @PutMapping("/{id}/add-product")
     @Operation(description = "adds product id to product ids list of order by its id"
             + " and returns updated order")
-    public OrderResponseDto addProduct(@PathVariable Long id, @RequestParam Long productId) {
+    public OrderResponseDto addProduct(@PathVariable Long id,
+                                       @RequestParam Long productId) {
         Order order = orderService.addProduct(id, productId);
         return responseDtoMapper.mapToDto(orderService.save(order));
     }

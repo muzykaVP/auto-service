@@ -4,6 +4,7 @@ import com.example.autoservice.model.Order;
 import com.example.autoservice.model.Owner;
 import com.example.autoservice.repository.OwnerRepository;
 import com.example.autoservice.service.OwnerService;
+import com.example.autoservice.service.exception.NoSuchElementPresentException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Owner get(Long id) {
         return ownerRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Can't get owner with id: " + id));
+                () -> new NoSuchElementPresentException("Can't get owner with id: " + id));
     }
 
     @Override

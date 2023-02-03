@@ -10,7 +10,6 @@ import com.example.autoservice.model.Owner;
 import com.example.autoservice.service.OwnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +58,6 @@ public class OwnerController {
     public List<OrderResponseDto> getOrders(@PathVariable Long id) {
         return ownerService.getOrders(id).stream()
                 .map(orderResponseDtoMapper::mapToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

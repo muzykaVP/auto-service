@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Getter
@@ -37,11 +39,13 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "orders_services",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
     private List<Service> services;
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "orders_products",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))

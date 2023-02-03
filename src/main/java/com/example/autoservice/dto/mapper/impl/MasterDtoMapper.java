@@ -9,7 +9,6 @@ import com.example.autoservice.model.Order;
 import com.example.autoservice.service.OrderService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,7 +36,7 @@ public class MasterDtoMapper implements
         MasterResponseDto responseDto = new MasterResponseDto();
         List<Long> orderIds = object.getOrders().stream()
                 .map(Order::getId)
-                .collect(Collectors.toList());
+                .toList();
         responseDto.setOrderIds(orderIds);
         responseDto.setName(object.getName());
         responseDto.setId(object.getId());

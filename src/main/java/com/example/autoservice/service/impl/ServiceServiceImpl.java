@@ -2,6 +2,7 @@ package com.example.autoservice.service.impl;
 
 import com.example.autoservice.repository.ServiceRepository;
 import com.example.autoservice.service.ServiceService;
+import com.example.autoservice.service.exception.NoSuchElementPresentException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public com.example.autoservice.model.Service get(Long id) {
         return serviceRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Can't get service with id: " + id));
+                () -> new NoSuchElementPresentException("Can't get service with id: " + id));
     }
 }
 

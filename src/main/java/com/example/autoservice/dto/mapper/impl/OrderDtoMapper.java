@@ -11,7 +11,6 @@ import com.example.autoservice.service.CarService;
 import com.example.autoservice.service.ProductService;
 import com.example.autoservice.service.ServiceService;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,33 +34,35 @@ public class OrderDtoMapper implements
         order.setDescription(dto.getDescription());
         order.setStatus(Order.Status.valueOf(dto.getStatus()));
         order.setCar(carService.get(dto.getCarId()));
+        order.setOrderDate(dto.getOrderDate());
         List<Product> products = dto.getProductIds().stream()
                 .map(productService::get)
-                .collect(Collectors.toList());
+                .toList();
         order.setProducts(products);
         List<Service> services = dto.getServiceIds().stream()
                 .map(serviceService::get)
-                .collect(Collectors.toList());
+                .toList();
         order.setServices(services);
         return order;
     }
 
     @Override
-    public OrderResponseDto mapToDto(Order object) {
+    public OrderResponseDto mapToDto(Order order) {
         OrderResponseDto responseDto = new OrderResponseDto();
-        responseDto.setId(object.getId());
-        responseDto.setOrderDate(object.getOrderDate());
-        responseDto.setDescription(object.getDescription());
-        responseDto.setCompletionDate(object.getCompletionDate());
-        responseDto.setFinalPrice(object.getFinalPrice());
-        responseDto.setCarId(object.getCar().getId());
-        List<Long> productIds = object.getProducts().stream()
+        responseDto.setId(order.getId());
+        responseDto.setOrderDate(order.getOrderDate());
+        responseDto.setDescription(order.getDescription());
+        responseDto.setCompletionDate(order.getCompletionDate());
+        responseDto.setFinalPrice(order.getFinalPrice());
+        responseDto.setCarId(order.getCar().getId());
+        responseDto.setStatus(order.getStatus().name());
+        List<Long> productIds = order.getProducts().stream()
                 .map(Product::getId)
-                .collect(Collectors.toList());
+                .toList();
         responseDto.setProductIds(productIds);
-        List<Long> serviceIds = object.getServices().stream()
+        List<Long> serviceIds = order.getServices().stream()
                 .map(Service::getId)
-                .collect(Collectors.toList());
+                .toList();
         responseDto.setServiceIds(serviceIds);
         return responseDto;
     }

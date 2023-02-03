@@ -33,6 +33,4 @@ public class Owner {
             joinColumns = @JoinColumn(name = "owner_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id"))
     private List<Order> orders;
-
-
 }

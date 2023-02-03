@@ -10,7 +10,6 @@ import com.example.autoservice.model.Owner;
 import com.example.autoservice.service.CarService;
 import com.example.autoservice.service.OrderService;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,11 +29,11 @@ public class OwnerDtoMapper implements
         Owner owner = new Owner();
         List<Car> cars = dto.getCarIds().stream()
                 .map(carService::get)
-                .collect(Collectors.toList());
+                .toList();
         owner.setCars(cars);
         List<Order> orders = dto.getOrderIds().stream()
                 .map(orderService::get)
-                .collect(Collectors.toList());
+                .toList();
         owner.setOrders(orders);
         return owner;
     }
@@ -45,11 +44,11 @@ public class OwnerDtoMapper implements
         responseDto.setId(object.getId());
         List<Long> carIds = object.getCars().stream()
                 .map(Car::getId)
-                .collect(Collectors.toList());
+                .toList();
         responseDto.setCarIds(carIds);
         List<Long> orderIds = object.getOrders().stream()
                 .map(Order::getId)
-                .collect(Collectors.toList());
+                .toList();
         responseDto.setOrderIds(orderIds);
         return responseDto;
     }
